@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,5 +62,11 @@ public class MedicoController {
 		Medico medico = medicoRepository.getReferenceById(id);
 		medico.excluir();
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity detalharMedico(@PathVariable("id") Long id) {
+		Medico medico = medicoRepository.getReferenceById(id);
+		return ResponseEntity.ok().body(new DadosMedico(medico));
 	}
 }
