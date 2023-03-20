@@ -35,17 +35,18 @@ public class MedicoController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity CadastrarMedico(@RequestBody @Valid DadosCadastroMedico dados, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity CadastrarMedico(@RequestBody @Valid DadosCadastroMedico dados,
+			UriComponentsBuilder uriBuilder) {
 		Medico medico = medicoRepository.save(new Medico(dados));
 		URI uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
 		return ResponseEntity.created(uri).body(new DadosMedico(medico));
 	}
 
 	@GetMapping
-	public ResponseEntity<Page<DadosMedico>> listar(@PageableDefault(size = 10, page = 0, sort = "nome") Pageable paginacao) {
+	public ResponseEntity<Page<DadosMedico>> listar(
+			@PageableDefault(size = 10, page = 0, sort = "nome") Pageable paginacao) {
 		Page<DadosMedico> page = medicoRepository.findAllByAtivoTrue(paginacao).map(DadosMedico::new);
 		return ResponseEntity.ok(page);
-		
 	}
 
 	@PutMapping
@@ -55,7 +56,7 @@ public class MedicoController {
 		medico.atualizarInformacoes(dados);
 		return ResponseEntity.ok(new DadosMedico(medico));
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity atualizarMedico(@PathVariable Long id) {
@@ -63,7 +64,7 @@ public class MedicoController {
 		medico.excluir();
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity detalharMedico(@PathVariable("id") Long id) {
 		Medico medico = medicoRepository.getReferenceById(id);
