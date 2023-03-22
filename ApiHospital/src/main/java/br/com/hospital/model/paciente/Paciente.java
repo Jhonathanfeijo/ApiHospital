@@ -33,6 +33,7 @@ public class Paciente {
 	private Endereco endereco;
 
 	public Paciente(DadosCadastroPaciente paciente) {
+		this.ativo = true;
 		this.nome = paciente.nome();
 		this.email = paciente.email();
 		this.cpf = paciente.cpf();
