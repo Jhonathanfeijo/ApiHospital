@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.hospital.infra.secutiry.DadosTokenJWT;
 import br.com.hospital.infra.secutiry.TokenService;
 import br.com.hospital.model.usuario.DadosAutenticacao;
 import br.com.hospital.model.usuario.Usuario;
@@ -24,8 +25,9 @@ public class AutenticacaoController {
 
 	@PostMapping
 	public ResponseEntity efetuarLogin(DadosAutenticacao dados) {
-		var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-		var authentication = manager.authenticate(token);
-		return ResponseEntity.ok(tokenService.gerarToken((Usuario)authentication.getPrincipal()));
+		var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+		var authentication = manager.authenticate(authenticationToken);
+		var tokenJWT = tokenService.gerarToken((Usuario)authentication.getPrincipal());
+		return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
 	}
 }
