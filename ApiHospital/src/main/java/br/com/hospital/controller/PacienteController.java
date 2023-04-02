@@ -21,7 +21,7 @@ import br.com.hospital.model.paciente.DadosAtualizacaoPaciente;
 import br.com.hospital.model.paciente.DadosCadastroPaciente;
 import br.com.hospital.model.paciente.DadosPaciente;
 import br.com.hospital.model.paciente.Paciente;
-import br.com.hospital.repository.PacienteRepository;
+import br.com.hospital.model.paciente.PacienteRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 

@@ -22,7 +22,7 @@ import br.com.hospital.model.medico.DadosAtualizacaoMedico;
 import br.com.hospital.model.medico.DadosCadastroMedico;
 import br.com.hospital.model.medico.DadosMedico;
 import br.com.hospital.model.medico.Medico;
-import br.com.hospital.repository.MedicoRepository;
+import br.com.hospital.model.medico.MedicoRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
