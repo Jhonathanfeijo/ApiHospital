@@ -10,7 +10,6 @@ import br.com.hospital.model.medico.Medico;
 import br.com.hospital.model.medico.MedicoRepository;
 import br.com.hospital.model.paciente.Paciente;
 import br.com.hospital.model.paciente.PacienteRepository;
-import jakarta.transaction.Transactional;
 
 @Service
 public class AgendaConsulta {
@@ -40,6 +39,7 @@ public class AgendaConsulta {
 		Paciente paciente = pacienteRepository.getReferenceById(dados.idPaciente());
 		Medico medico = encontrarMedico(dados);
 		Consulta consulta = new Consulta(null, medico, paciente, dados.data());
+		consulta = consultaRepository.save(consulta);
 		return new DadosDetalhamentoConsulta(consulta);
 	}
 
@@ -50,7 +50,10 @@ public class AgendaConsulta {
 		if (dados.especialidade() == null)
 			throw new RuntimeException("A especialidade é obrigatória");
 
-		return medicoRepository.escolherMedicoAleatorioLivreNaData(dados.especialidade(), dados.data());
+		var medico = medicoRepository.escolherMedicoAleatorioLivreNaData(dados.especialidade(), dados.data());
+		if (medico == null)
+			throw new RuntimeException("Não há médico para esse horário");
+		return medico;
 	}
 
 }
