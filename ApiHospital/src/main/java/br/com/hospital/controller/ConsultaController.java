@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.hospital.model.consulta.AgendaConsulta;
 import br.com.hospital.model.consulta.DadosAgendamentoConsulta;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 
+@SecurityRequirement(name = "bearer-key")
 @RestController
 @RequestMapping("/consulta")
 public class ConsultaController {
-	
+
 	@Autowired
 	private AgendaConsulta agendaConsulta;
 

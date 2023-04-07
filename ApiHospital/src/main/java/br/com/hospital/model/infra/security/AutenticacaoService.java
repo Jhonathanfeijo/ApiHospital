@@ -1,4 +1,4 @@
-package br.com.hospital.infra.security;
+package br.com.hospital.model.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +16,7 @@ public class AutenticacaoService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
 		return usuarioRepository.findByLogin(username);
 	}
 

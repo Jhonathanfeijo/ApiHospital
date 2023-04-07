@@ -1,4 +1,4 @@
-package br.com.hospital.infra.security;
+package br.com.hospital.model.infra.security;
 
 import java.io.IOException;
 
@@ -19,27 +19,36 @@ public class SecurityFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private TokenService tokenService;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		var token = recuperaToken(request);
-		if (token != null) {
-			var subject = tokenService.getSubject(token);
+		
+		String tokenAuthorization = recuperaToken(request);
+
+		if (tokenAuthorization != null) {
+
+			var subject = tokenService.getSubject(tokenAuthorization);
 			var usuario = usuarioRepository.findByLogin(subject);
 			var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
+
 		filterChain.doFilter(request, response);
 	}
 
 	private String recuperaToken(HttpServletRequest request) {
-		var authorizationHeader = request.getHeader("Authorization");
-		if (authorizationHeader != null)
-			return authorizationHeader.replace("Bearer ", "");
+
+		var authorization = request.getHeader("Authorization");
+
+		if (authorization != null) {
+			return authorization.replace("Bearer ", "");
+		}
+
 		return null;
 	}
 

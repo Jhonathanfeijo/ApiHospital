@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +22,11 @@ import br.com.hospital.model.medico.DadosCadastroMedico;
 import br.com.hospital.model.medico.DadosMedico;
 import br.com.hospital.model.medico.Medico;
 import br.com.hospital.model.medico.MedicoRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
+@SecurityRequirement(name = "bearer-key")
 @RestController
 @RequestMapping("/medicos")
 public class MedicoController {

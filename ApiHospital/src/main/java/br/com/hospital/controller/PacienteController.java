@@ -1,6 +1,6 @@
 package br.com.hospital.controller;
 
-import java.net.URI; 
+import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,9 +22,11 @@ import br.com.hospital.model.paciente.DadosCadastroPaciente;
 import br.com.hospital.model.paciente.DadosPaciente;
 import br.com.hospital.model.paciente.Paciente;
 import br.com.hospital.model.paciente.PacienteRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
+@SecurityRequirement(name = "bearer-key")
 @RestController
 @RequestMapping("/pacientes")
 public class PacienteController {
@@ -56,7 +58,7 @@ public class PacienteController {
 
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity deletar(@PathVariable("/{id}") Long id) {
+	public ResponseEntity deletar(@PathVariable("id") Long id) {
 		Paciente paciente = pacienteRepository.getReferenceById(id);
 		paciente.excluir();
 		return ResponseEntity.noContent().build();
