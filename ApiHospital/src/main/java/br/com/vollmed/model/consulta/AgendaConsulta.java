@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.vollmed.model.consulta.validacoes.ValidadorAgendamentoDeConsulta;
 import br.com.vollmed.model.medico.Medico;
@@ -26,12 +27,12 @@ public class AgendaConsulta {
 	@Autowired
 	private List<ValidadorAgendamentoDeConsulta> validadores;
 
-	public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados) {
+	public DadosDetalhamentoConsulta agendar( DadosAgendamentoConsulta dados) {
 
 		if (!pacienteRepository.existsById(dados.idPaciente()))
 			throw new RuntimeException("Paciente não encontrado!");
 
-		if (dados.idMedico() != null && medicoRepository.existsById(dados.idMedico()))
+		if (dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico()))
 			throw new RuntimeException("Médico não existe!");
 
 		validadores.forEach(v -> v.validar(dados));
